@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>signup.html</title>
+<style>
+div.div1{
+  position:relative;
+  height: 400px; 
+}
+div.divPost{ 
+ position:absolute;
+ top:100px;
+ left:10px;
+ margin: 20px;
+ padding: 10px;
+ width:300px;
+ height:200px;
+ overflow:auto;
+ border:1px solid;
+ background: green;
+ display:none;
+}
+#btSignup {
+	display:none;
+}
+
+
+</style>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script>
+//$(document).ready(function(){});
+$(function(){
+	//dom트리에서 form객체찾기
+	//객체의 서브밋이벤트가 발생하면
+	 
+	/* $("form").submit(function(){
+		alert("form서브밋");
+		var url = 'signup.do';
+		this.method = 'post';
+		this.action = url;
+		this.submit();
+		return false;
+	}); */
+	
+	
+	$("#btSignup").click(function(){
+		alert("btSignup");
+		$.ajax({
+			url:'signup.do',
+			method:'post',
+			data:$('form').serialize(),
+			success: function(result){
+				$('section').empty();
+				$('section').html(result.trim());
+			}
+		});
+		return false;
+	});
+	$("input[name=id]").focus(function(){
+		$("#btSignup").hide();
+	});	
+	$("#btDupchk").click(function(){
+		$("#btSignup").hide();
+		var id = $("input[name=id]").val();
+		$.ajax({
+			url:'Dupchkservlet.do',
+			method:'post',
+			data: 'id='+id,
+			success:function(result){
+				//alert(result.trim());
+				var obj = JSON.parse(result.trim()); // parse() : 문자열을 자바스크립트 객체로 반환
+				if(obj.status==1){
+					alert("사용 가능한 아이디입니다.");
+					$("#btSignup").show();
+				}else if(obj.status==-1){
+					alert("이미 사용 중인 아이디입니다.");
+				}
+			}
+		});
+		//alert("btDupchk");
+		return false;
+	});
+	$("#btPost").click(function(){
+		alert("btPost");
+		$("div.divPost").show();
+		return false;
+	});
+	$("div.divPost>button.search").click(function(){
+		$.ajax({
+			url:'searchpost.do',
+			method:'post',
+			data : $('div.divPost>input[name=doro]').val(),
+			success:function(result){
+				$("div.divPost>div.divPostresult").html(result);
+			}
+		});
+		return false;
+	});
+});
+</script>
+</head>
+<body>
+<div class="div1"> 
+<form>
+아이디:<input name="id"><button id="btDupchk">ID중복확인</button><br>
+비밀번호:<input type="password" name="pwd"><br>
+이름:<input name="name"><br>
+우편번호:<button id="btPost">검색</button>  
+  <label>우편번호5자리</label>
+  <label>기본주소</label>
+  <input type="hidden" name="buildingno">
+  <br>
+주소 :<input name="addr"><br>
+<button id="btSignup">가입</button>
+</form>
+
+<div class='divPost'>
+  도로명 + 건물번호:<input name='doro' value='도움5로 19'>
+  <button class="search">검색</button>
+  <span class="close">닫기</span>
+  <div class="divPostresult"></div>
+</div>
+</div>
+</body>
+</html>
