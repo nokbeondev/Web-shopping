@@ -118,4 +118,24 @@
     <servlet-name>ProductDetailServlet</servlet-name>
     <url-pattern>/productdetail.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddCartServlet</display-name>
+    <servlet-name>AddCartServlet</servlet-name>
+    <servlet-class>control.AddCartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddCartServlet</servlet-name>
+    <url-pattern>/addcart.do</url-pattern>
+  </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ViewCartServlet</display-name>
+    <servlet-name>ViewCartServlet</servlet-name>
+    <servlet-class>control.ViewCartServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewCartServlet</servlet-name>
+    <url-pattern>/viewcart.do</url-pattern>
+  </servlet-mapping>
 </web-app>

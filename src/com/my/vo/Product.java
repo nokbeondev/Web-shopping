@@ -12,6 +12,31 @@ package com.my.vo;
  */
 
 public class Product {
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((prod_no == null) ? 0 : prod_no.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Product other = (Product) obj;
+		if (prod_no == null) {
+			if (other.prod_no != null)
+				return false;
+		} else if (!prod_no.equals(other.prod_no))
+			return false;
+		return true;
+	}
+
 	private String prod_no;
 	private String prod_name;
 	private int prod_price;
