@@ -1,8 +1,9 @@
+<%@page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="UTF-8">
-<title>semantic.html</title>
+<title>semantic.jsp</title>
 <style>
 /*div.header{border:1px solid;}*/
 /*div.footer{background-color:gray;}*/
@@ -30,10 +31,11 @@ footer {background-color:gray;
  	  width: 50%; 	        
       text-align: center;
 }
-.div1>table, div>table td{
+.div1>table, .div1>table td, .div2>table, .div2>table td{
      border-collapse: collapse;
      border: 1px solid;
 }
+
 </style>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <script>
@@ -46,13 +48,14 @@ function init(){
 		//section영역지우기
 		$section.empty();//$section.html('');
 		
-		//ajax기술로  href변수값에 해당 URL요청
+		//ajax기술로  href변수값에 해당 URL요청		
 		$.ajax({
 			url: href,
 			method: 'post',
 			success:function(result){
 				if(href=='productlist.do'){
-
+					//$section.html(result);	
+				
 				  var arr = JSON.parse(result.trim());
 				  var data = '<div class="div1">';
 				  data += '<h3>상품목록</h3>';
@@ -73,44 +76,47 @@ function init(){
 				  }
 				  data += '</table>';
 				  $section.html(data);
-				/*}else{
+				/* }else{			
 					$section.html(result);
-				}	*/
+				} */
 				}else if(href=='viewcart.do'){
-					  var arr = JSON.parse(result.trim());
-					  var data = '<div class="div2">';
-					  data += '<h3>장바구니 내용</h3>';
-					  data += '<table>';
-					  data += '<tr><td>상품번호</td><td>상품명</td><td>가격</td><td>수량</td></tr>'
-					  for(var i=0; i<arr.length; i++){
-						  var p = arr[i];
-						  var prod_no = p.no;
-						  var prod_name = p.name;
-						  var prod_price = p.price;
-						  var cnt = p.cnt;
-						  data += '<tr>';
-						  data += '<td>' + prod_no+'</td>';
-						  data += '<td>' + prod_name+'</td>';
-						  data += '<td>' + prod_price+'</td>';
-						  data += '<td>' + cnt+'</td>';
-						  data += '</tr>';
-					  }
-					  data += '</table>';
-					  $section.html(data);
-					}else{			
-						$section.html(result);
+				  var arr = JSON.parse(result.trim());
+				  var data = '<div class="div2" >';
+				  data += '<h3>장바구니 내용</h3>';
+				  data += '<table>';
+				  data += '<tr><td>상품번호</td><td>상품명</td><td>가격</td><td>수량</td></tr>'
+				  for(var i=0; i<arr.length; i++){
+					  var p = arr[i];
+				  
+					  var prod_no = p.no;
+					  var prod_name = p.name;
+					  var prod_price = p.price;
+					  var cnt = p.cnt;
+					  data += '<tr>';
+					  data += '<td>' + prod_no+'</td>';
+					  data += '<td>' + prod_name+'</td>';
+					  data += '<td>' + prod_price+'</td>';
+					  data += '<td>' + cnt+'</td>';
+					  data += '</tr>';
+				  }
+				  data += '</table>';
+				  $section.html(data);
+				}else if(href=="logout.do"){
+					alert(result);
+					var obj = JSON.parse(result.trim());
+					if(obj.status == 1){
+						//alert("")
 					}
+					location.href = "semantic.jsp";
+				}else{			
+					$section.html(result);
+				}
 			}
 		});
-		
-		
-		//alert($(this).attr("href") +" 메뉴가 선택되었습니다");		
-		//e.preventDefault(); //기본이벤트막기
-		//e.stopPropagation();//이벤트전파중지
 		return false;
 	});
-	$("section").on("click", "table>tbody>tr", function(){
-		
+	//$("section>table>tbody>tr").click(function(){});
+	$("section").on("click", "div.div1>table>tbody>tr", function(){
 		var url = "productdetail.do";
 		var tdObj = $(this).children().first(); //첫번째 td객체
 		var no = tdObj.html().trim();
@@ -121,12 +127,10 @@ function init(){
 			data: "no=" + no,
 			success:function(result){
 				var obj = JSON.parse(result.trim());
-				//var obj = {"no":"C001", "name":"부가티", "price": 4000, "mfd":"18/03/01"};
-				
+				console.log(obj);
 				$("section").empty();
-				//var data = '<div>';
 				var divObj = $("<div>"); //DOM에 추가될 DIV객체생성
-				$(divObj).css("border", "1px solid");
+				//$(divObj).css("border", "1px solid");
 				$(divObj).addClass("div1");
 				var h3Obj = $("<h3>");
 				h3Obj.html("상품상세정보");
@@ -160,7 +164,7 @@ function init(){
 				tdObj.html(obj.price);
 				trObj.append(tdObj);				
 				tableObj.append(trObj);
-
+				//divObj.append(tableObj);
 				
 				trObj = $("<tr>");
 				tdObj = $("<td>");
@@ -168,52 +172,58 @@ function init(){
 				trObj.append(tdObj);				
 				tdObj = $("<td>");
 				tdObj.html(obj.mfd);
-				trObj.append(tdObj);
+				trObj.append(tdObj);				
 				tableObj.append(trObj);
-
-				trObj = $("<tr>"); // 테이블의 행 태그용 객체 생성
-				tdObj = $("<td>"); // 열 객체 생성
-				tdObj.html("수량"); // 열 내용 설정
-				trObj.append(tdObj); // 행에 열 추가
-				tdObj = $("<td>"); // 열 객체 생성
-				tdObj.html("<input type = 'number' name = 'cnt' min='1' value='1'>"); // 열 내용 설정
-				trObj.append(tdObj);
-				tableObj.append(trObj);
-
 				
-				trObj = $("<tr>"); // 테이블의 행 태그용 객체 생성
-				tdObj = $("<td colspan='2'>"); // 두 개의 열을 병합
-				tdObj.html("<input type='button' name='btAddCart' value='장바구니 넣기'>"); // 열 내용 설정
-				trObj.append(tdObj);
+				trObj = $("<tr>");//테이블의 행태그용 객체생성
+				tdObj = $("<td>");//열 객체생성
+				tdObj.html("수량");//열 내용 설정
+				trObj.append(tdObj);//행에 열추가				
+				tdObj = $("<td>");//열 객체생성
+				tdObj.html("<input type='number' name='cnt' min='1' value='1'>");//열 내용 설정
+				trObj.append(tdObj);	
+				tableObj.append(trObj);
+				
+				trObj = $("<tr>");//테이블의 행태그용 객체생성
+				tdObj = $("<td colspan='2'>");//열 객체생성
+				tdObj.html("<input type='button' name='btAddCart' value='장바구니넣기'>");//열 내용 설정
+				trObj.append(tdObj);	
 				tableObj.append(trObj);
 				
 				divObj.append(tableObj);
 				$("section").append(divObj);
-			}
+			}		    
 		});
 		return false;
 	});
-	$("section").on("click", "div.div1 input[name=btAddCart]", function(){
-		//alert("장바구니 버튼 클릭!");
-		var vno = $("section>div.div1>table>tr:first-child>td:nth-child(2)").html();
-		var vcnt= $("section>div.div1>table input[name=cnt]").val();
-		$.ajax({
-			url:"addcart.do",
-			method:"get",
-			data: {no:vno, cnt:vcnt}, // 객체로 받아오는 방법. 스트링으로 받아오는 방법인 "no="+no+"&cnt"+cnt 이 방법도 된다.
-			success:function(result){
-				var obj = JSON.parse(result.trim());
-				if(obj.status==1){// 정상응답
-					alert("장바구니에 추가되었습니다.");
-					var aObj = $("nav>ul>li>a[href='productlist.do']");
-					aObj.trigger("click"); // 트리거 사용해서 장바구니 추가 후에 다시 목록으로 돌아간다.
-				}else{
-					alert("장바구니에 넣기 실패했습니다.");
-				}
-			}
-		});
-		return false;
+	$("section").on("click",
+			        "div.div1 input[name=btAddCart]", 
+			        function(){
+		   				//alert("장바구니버튼이 클릭됨!");
+		   				
+		   			  var vno=$("section>div.div1>table>tr:first-child>td:nth-child(2)").html();
+		   			  var vcnt=$("section>div.div1>table input[name=cnt]").val();
+					  $.ajax({
+						url:"addcart.do",
+						method:"get",
+						data: {no:vno, cnt:vcnt},//"no="+vno+"&cnt="+vcnt,
+					    success:function(result){
+					    	var obj = JSON.parse(result.trim());
+					    	if(obj.status == 1){ //정상응답
+					    		alert("장바구니에 추가되었습니다.");
+					    		var aObj = $("nav>ul>li>a[href='productlist.do']");
+				   				aObj.trigger("click");				   					
+					    	}else {
+					    		alert("장바구니에 넣기가 실패되었습니다.");
+					    	}
+					    }
+					  });
+					  return false;
+					 
 	});
+	/* $("section").on("click", "nav>ul>li:nth-child(2)>a[href='logout.do']", function(){
+		location.href = "semantic.jsp";
+	}); */
 }
 //$(document).ready(init);
 $(init);
@@ -222,14 +232,7 @@ $(init);
 
 <body>
 <header>머리말</header>
-<nav>
-  <ul>
-    <li><a href="login.html">로그인</a></li>
-    <li><a href="signup.html">가입</a></li>
-    <li><a href="productlist.do">상품</a></li>
-    <li><a href="viewcart.do">장바구니보기</a></li>
-  </ul>
-</nav>
+<jsp:include page="menu.jsp"/>
 <section>본문</section>
 <footer>꼬리말</footer>
 </body>

@@ -47,10 +47,8 @@ function init(){
 				method: 'post',
 				data: $formObj.serialize(), //id=xxx&pwd=yyy
 				success:function(result){
-					//$("section").html('');
-					//$("section").empty();
-					//$("section").html(result.trim());
 					alert(result.trim());
+					location.href="semantic.jsp";
 				}
 			});// end ajax
 		}//end if
