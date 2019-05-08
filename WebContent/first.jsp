@@ -42,11 +42,24 @@
                       (exception기본객체사용가능)
         <%Product p; %>
       </li>
-      <li>include directive</li>
+      <li>include directive : 정적포함, _jspService()에 포함</li>
       <li>taglib directive</li>
     </ol>
  </li>
- <li>Action Tag Element</li>
+ <li>Action Tag Element
+    <ol><li>standard action tag
+            <ul>
+              <li>jsp:foward</li>
+              <li>jsp:include - 동적포함, 결과만 포함</li>
+              <li>jsp:param</li>
+              <li>jsp:useBean</li>
+              <li>jsp:setProperty</li>
+              <li>jsp:getProperty</li>
+            </ul>
+        </li>
+        <li>custom action tag</li>
+    </ol>
+ </li>
 </ul>
 <div>
   <h3>기본객체(내장객체)</h3>
