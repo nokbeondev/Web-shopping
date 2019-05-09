@@ -13,5 +13,8 @@
     <li><%=c.getId()%>님 안녕하세요~</a></li>
     <li><a href="logout.do">로그아웃</a></li>
     <%} %>
+    
+    <li><a href ="productlist.do">상품 보기</a></li>
+    <li><a href ="viewcart.do">장바구니 보기</a></li>
   </ul>
 </nav>

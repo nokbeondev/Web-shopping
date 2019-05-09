@@ -148,4 +148,14 @@
     <servlet-name>LogoutServlet</servlet-name>
     <url-pattern>/logout.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>AddOrderServlet</display-name>
+    <servlet-name>AddOrderServlet</servlet-name>
+    <servlet-class>control.AddOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>AddOrderServlet</servlet-name>
+    <url-pattern>/addorder.do</url-pattern>
+  </servlet-mapping>
 </web-app>

@@ -38,6 +38,7 @@ public class LoginServlet extends HttpServlet {
 		
 		String result = "로그인 실패";
 		HttpSession session = request.getSession();
+		session.removeAttribute("loginInfo");
 		try {
 			CustomerDAOOracle dao = new CustomerDAOOracle();
 			Customer c = dao.selectById(id);

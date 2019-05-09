@@ -74,6 +74,7 @@ function init(){
 					  data += '<td>' + prod_price+'</td>';
 					  data += '</tr>';
 				  }
+				  
 				  data += '</table>';
 				  $section.html(data);
 				/* }else{			
@@ -99,6 +100,10 @@ function init(){
 					  data += '<td>' + cnt+'</td>';
 					  data += '</tr>';
 				  }
+				  data += '<tr><td colspan="4">';
+				  data += '<button>주문하기</button>';
+				  data += '</td></tr>';
+				  
 				  data += '</table>';
 				  $section.html(data);
 				}else if(href=="logout.do"){
@@ -199,7 +204,7 @@ function init(){
 	$("section").on("click",
 			        "div.div1 input[name=btAddCart]", 
 			        function(){
-		   				//alert("장바구니버튼이 클릭됨!");
+		   			//alert("장바구니버튼이 클릭됨!");
 		   				
 		   			  var vno=$("section>div.div1>table>tr:first-child>td:nth-child(2)").html();
 		   			  var vcnt=$("section>div.div1>table input[name=cnt]").val();
@@ -224,8 +229,30 @@ function init(){
 	/* $("section").on("click", "nav>ul>li:nth-child(2)>a[href='logout.do']", function(){
 		location.href = "semantic.jsp";
 	}); */
+	$("section").on("click", "div.div2 button", function(){
+		alert("주문하기 클릭!!");
+		$.ajax({
+			url:"addorder.do", // property이름 : 값
+			method:'get',
+			success:function(result){
+				var obj = JSON.parse(result.trim());
+				if(obj.status==1){
+					alert("주문 성공~");
+				
+				}else if(obj.status==0){ // 로그인 안 한 경우
+					var aObj = $("nav>ul>li>a[href='login.html']");
+					aObj.trigger("click");
+				}else{
+					alert("주문 실팽~");
+				}
+			}
+		});
+		
+		
+	});
 }
 //$(document).ready(init);
+
 $(init);
 </script>
 </head>
