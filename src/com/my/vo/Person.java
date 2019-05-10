@@ -4,41 +4,53 @@ import java.io.Serializable;
 
 public class Person implements Serializable{
 	protected String name;
-	protected String zipcode;
+	protected Post post;
 	protected String address;
+	
 	public Person() {		
 	}
+	
 	public Person(String name) {
 		this.name = name;
 		//this(name, null, null);
 	}
-	public Person(String name, String zipcode, String address) {
+	
+	public Person(String name, Post post, String address) {
 		this.name = name;
-		this.zipcode = zipcode;
+		this.post = post;
 		this.address = address;
 	}
+	
 	@Override
 	public String toString() {
-		return "name:" + name +", zipcode:" + zipcode +", address:" + address;
+		return "Person [name=" + name + ", post=" + post + ", address=" + address + "]";
 	}
+
 	public String getName() {
 		return name;
 	}
+
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getZipcode() {
-		return zipcode;
+
+	public Post getPost() {
+		return post;
 	}
-	public void setZipcode(String zipcode) {
-		this.zipcode = zipcode;
+
+	public void setPost(Post post) {
+		this.post = post;
 	}
+
 	public String getAddress() {
 		return address;
 	}
+
 	public void setAddress(String address) {
 		this.address = address;
 	}
+
+	
 	
 	
 }

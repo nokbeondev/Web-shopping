@@ -14,7 +14,10 @@
     <%} %>
     
     <li><a href ="productlist.do">상품 보기</a></li>
-    <li><a href ="viewcart.do">장바구니 보기</a></li>
+    <li ><a href ="viewcart.do"><img src="http://store.baemin.com/shop/data/goods/1493367630673m0.jpg"></a></li>
+    
+    
+    
     <%if(c!=null){%>
     <li><a href ="vieworder.do">주문내역 보기</a></li>
     <%}%>

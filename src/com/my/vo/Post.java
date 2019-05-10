@@ -39,7 +39,6 @@ public class Post {
 		this.dong = dong;
 	}
 	
-	
 	@Override
 	/*public String toString() {
 		return "Post [zipcode=" + zipcode + ", sido=" + sido + ", sigungu=" + sigungu + ", doro=" + doro
@@ -113,5 +112,4 @@ public class Post {
 	public void setDong(String dong) {
 		this.dong = dong;
 	}
-	
 }

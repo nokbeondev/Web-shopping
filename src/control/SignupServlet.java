@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.my.dao.CustomerDAOOracle;
 import com.my.exception.AddException;
 import com.my.vo.Customer;
+import com.my.vo.Post;
 
 public class SignupServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -25,18 +26,24 @@ public class SignupServlet extends HttpServlet {
         buildingno = request.getParameter("buildingno");
         address = request.getParameter("addr");
                 
-        String result = "가입 실패";
-  		try {
+        //String result = "가입 실패";
+  		int status = -1;
+        try {
 	        CustomerDAOOracle dao = new CustomerDAOOracle();
 	        Customer c = new Customer();
 	        c.setId(id);
 	        c.setPwd(pwd);
 	        c.setName(name);
-	        c.set
+
+	        Post post = new Post();
+	        post.setBuilding(buildingno);
+	        
+	        c.setPost(post);
 	        c.setAddress(address);
         	dao.insert(c);
+        	status = 1;
 			//out.print("가입 성공");
-        	result = "가입 성공";
+        	//result = "가입 성공";
   		} catch(ClassNotFoundException e) {
   			e.printStackTrace();
   			//out.print("가입 실패");
@@ -44,7 +51,6 @@ public class SignupServlet extends HttpServlet {
 			e.printStackTrace();
 			//out.print("가입 실패");
 		} 
-  		request.setAttribute("result", result);
   		String path = "signupresult.jsp";
   		RequestDispatcher rd = request.getRequestDispatcher(path);
   		rd.forward(request, response);
