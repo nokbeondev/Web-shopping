@@ -17,7 +17,7 @@ import com.my.vo.OrderInfo;
 public class ViewOrderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		//0) 로그인된 경우 아래 진행 함
 		HttpSession session = request.getSession();
 		Customer c = (Customer) session.getAttribute("loginInfo");

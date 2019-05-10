@@ -32,6 +32,7 @@ public class SignupServlet extends HttpServlet {
 	        c.setId(id);
 	        c.setPwd(pwd);
 	        c.setName(name);
+	        c.set
 	        c.setAddress(address);
         	dao.insert(c);
 			//out.print("가입 성공");

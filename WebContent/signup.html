@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <title>signup.html</title>
 <style>
-div.div1{
+div.signup{
   position:relative;
   height: 400px; 
 }
@@ -21,29 +21,23 @@ div.divPost{
  background: green;
  display:none;
 }
-#btSignup {
-	display:none;
+div.divPost>span.close:hover{
+  background-color:yellow;
 }
-
-
+#btSignup {
+  display:none;
+}
+.divPostresult span.zipcode:hover{background-color: yellow; }
+.divPostresult span.buildingno{
+  display:none;
+}
+.divPostresult span.addr{}
 </style>
+<!-- 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-<script>
-//$(document).ready(function(){});
-$(function(){
-	//dom트리에서 form객체찾기
-	//객체의 서브밋이벤트가 발생하면
-	 
-	/* $("form").submit(function(){
-		alert("form서브밋");
-		var url = 'signup.do';
-		this.method = 'post';
-		this.action = url;
-		this.submit();
-		return false;
-	}); */
-	
-	
+-->
+ <script>
+$(function(){	
 	$("#btSignup").click(function(){
 		alert("btSignup");
 		$.ajax({
@@ -51,72 +45,118 @@ $(function(){
 			method:'post',
 			data:$('form').serialize(),
 			success: function(result){
+				var obj = JSON.parse(result.trim());
 				$('section').empty();
-				$('section').html(result.trim());
+				//$('section').html(result.trim());
+				if(obj.status == 1){ //가입성공인 경우
+					alert("가입 성공!");
+					location.href="semantic.jsp";
+				}else if(obj.status == -1){
+					alert("가입 실패!");
+				}				
 			}
 		});
 		return false;
 	});
 	$("input[name=id]").focus(function(){
 		$("#btSignup").hide();
-	});	
+	});
 	$("#btDupchk").click(function(){
 		$("#btSignup").hide();
+		alert("btDupchk");
 		var id = $("input[name=id]").val();
 		$.ajax({
-			url:'Dupchkservlet.do',
-			method:'post',
+			url:'dupchk.do',
+			method: 'post',
 			data: 'id='+id,
 			success:function(result){
 				//alert(result.trim());
-				var obj = JSON.parse(result.trim()); // parse() : 문자열을 자바스크립트 객체로 반환
-				if(obj.status==1){
-					alert("사용 가능한 아이디입니다.");
+				var obj = JSON.parse(result.trim());//문자열을 자바스크립트객체로 변환
+				if(obj.status == 1){
+					//alert("사용가능한 아이디입니다.");
 					$("#btSignup").show();
-				}else if(obj.status==-1){
-					alert("이미 사용 중인 아이디입니다.");
+				}else if(obj.status == -1){
+					alert("이미 사용중인 아이디입니다");
+					
 				}
 			}
 		});
-		//alert("btDupchk");
 		return false;
 	});
 	$("#btPost").click(function(){
 		alert("btPost");
+		$("div.divPost>div.divPostresult").empty();
 		$("div.divPost").show();
 		return false;
 	});
 	$("div.divPost>button.search").click(function(){
+		alert($('div.divPost>input[name=doro]').val());
 		$.ajax({
 			url:'searchpost.do',
 			method:'post',
-			data : $('div.divPost>input[name=doro]').val(),
+			data : 'doro='+$('div.divPost>input[name=doro]').val(),
 			success:function(result){
-				$("div.divPost>div.divPostresult").html(result);
+				//$("div.divPost>div.divPostresult").html(result);
+				var obj = JSON.parse(result.trim());
+				if(obj.status == -1){//
+					$("div.divPost>div.divPostresult").html("결과가 없습니다");
+				}else{
+					var data = "<ul>";
+					for(var i=0; i<obj.posts.length; i++){
+						var post = obj.posts[i];
+						var zipcode = post.zipcode;
+						var buildingno = post.buildingno;
+						var addr = post.addr;
+						data +="<li>";
+						data +='<span class="zipcode">'+zipcode+'</span>';
+						data +='<span class="buildingno">'+buildingno+'</span>';
+						data +='<span class="addr">'+addr+'</span>';
+						data +="</li>";
+					}
+					data += "</ul>";
+					$("div.divPost>div.divPostresult").html(data);
+				}
 			}
 		});
 		return false;
+	});
+	$("div.divPost>span.close").click(function(){
+		$("div.divPost").hide();
+	});
+	
+	$("div.divPost>div.divPostresult").on("click","ul>li",function(){
+		alert("우편번호를 선택했습니다!");
+		$("label.zipcode").html(
+				$(this).find("span.zipcode").html()
+		);
+		$("label.addr").html(
+				$(this).find("span.addr").html()
+		);
+		$("div.signup>form>input[name=buildingno]").html(
+				$(this).find("span.buildingno").html()		
+		);
+		$("div.divPost").hide();
 	});
 });
 </script>
 </head>
 <body>
-<div class="div1"> 
+<div class="signup"> 
 <form>
-아이디:<input name="id"><button id="btDupchk">ID중복확인</button><br>
-비밀번호:<input type="password" name="pwd"><br>
-이름:<input name="name"><br>
+아이디:<input name="id" size="10"><button id="btDupchk">ID중복확인</button><br>
+비밀번호:<input type="password" name="pwd" size="10"><br>
+이름:<input name="name" size="10"><br>
 우편번호:<button id="btPost">검색</button>  
-  <label>우편번호5자리</label>
-  <label>기본주소</label>
+  <label class="zipcode">우편번호5자리</label>
+  <label class="addr">기본주소</label>
   <input type="hidden" name="buildingno">
   <br>
-주소 :<input name="addr"><br>
+주소 :<input name="addr" size="10"><br>
 <button id="btSignup">가입</button>
 </form>
 
 <div class='divPost'>
-  도로명 + 건물번호:<input name='doro' value='도움5로 19'>
+  도로명 + 건물번호:<input name='doro' value='도움5로19'>
   <button class="search">검색</button>
   <span class="close">닫기</span>
   <div class="divPostresult"></div>

@@ -168,4 +168,14 @@
     <servlet-name>ViewOrderServlet</servlet-name>
     <url-pattern>/vieworder.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>SearchPostServlet</display-name>
+    <servlet-name>SearchPostServlet</servlet-name>
+    <servlet-class>control.SearchPostServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>SearchPostServlet</servlet-name>
+    <url-pattern>/searchpost.do</url-pattern>
+  </servlet-mapping>
 </web-app>

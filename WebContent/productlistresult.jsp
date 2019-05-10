@@ -1,8 +1,8 @@
-<%@page import="com.my.vo.Product" %>
-<%@page import="com.my.dao.ProductDAOOracle" %>
-<%@page import="java.util.List" %>
-<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@page import="com.my.vo.Product"%>
+<%@page import="com.my.dao.ProductDAOOracle"%>
+<%@page import="java.util.List"%>
+<%@page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <%-- <%
 	List<Product> list = (List)request.getAttribute("all"); // Servlet에서 넘겨준 것 받아오기
