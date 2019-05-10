@@ -158,4 +158,14 @@
     <servlet-name>AddOrderServlet</servlet-name>
     <url-pattern>/addorder.do</url-pattern>
   </servlet-mapping>
+  <servlet>
+    <description></description>
+    <display-name>ViewOrderServlet</display-name>
+    <servlet-name>ViewOrderServlet</servlet-name>
+    <servlet-class>control.ViewOrderServlet</servlet-class>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>ViewOrderServlet</servlet-name>
+    <url-pattern>/vieworder.do</url-pattern>
+  </servlet-mapping>
 </web-app>

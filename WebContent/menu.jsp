@@ -16,5 +16,8 @@
     
     <li><a href ="productlist.do">상품 보기</a></li>
     <li><a href ="viewcart.do">장바구니 보기</a></li>
+    <%if(c!=null){%>
+    <li><a href ="vieworder.do">주문내역 보기</a></li>
+    <%}%>
   </ul>
 </nav>

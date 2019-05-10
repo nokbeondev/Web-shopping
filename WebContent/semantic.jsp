@@ -238,7 +238,9 @@ function init(){
 				var obj = JSON.parse(result.trim());
 				if(obj.status==1){
 					alert("주문 성공~");
-				
+					//주문목록보기로 이동
+					  var aObj = $("nav>ul>li>a[href='vieworder.do']");
+		 			  aObj.trigger("click");					
 				}else if(obj.status==0){ // 로그인 안 한 경우
 					var aObj = $("nav>ul>li>a[href='login.html']");
 					aObj.trigger("click");

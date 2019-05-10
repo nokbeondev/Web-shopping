@@ -32,7 +32,7 @@ public class OrderDAOOracle implements OrderDAO {
 			con.setAutoCommit(false);
 			
 			insertInfo(con, info);
-			insertLine(con, info); 
+			insertLine(con, info);
 			con.commit();//완료
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -56,7 +56,7 @@ public class OrderDAOOracle implements OrderDAO {
 			throws SQLException {
 		PreparedStatement pstmt = null;
 		String insertInfoSQL = 
-				"INSERT INTO order_info(order_no, order_id)  "
+				"INSERT INTO orderInfo(order_no, order_id)  "
 				+ "VALUES (order_seq.NEXTVAL,       ?)"; 
 		
 		pstmt = con.prepareStatement(insertInfoSQL);
@@ -76,9 +76,9 @@ public class OrderDAOOracle implements OrderDAO {
 		for(OrderLine line: lines) {
 			pstmt.setString(1, line.getProduct().getProd_no());
 			pstmt.setInt(2, line.getOrder_quantity());
-			pstmt.addBatch();
+			pstmt.addBatch();//일괄처리 하기 위해 쌓아두기
 		}
-		pstmt.executeBatch();
+		pstmt.executeBatch();//일괄처리 하기
 	}
 	
 	private void insertLine(Connection con, OrderLine line) 
@@ -105,10 +105,10 @@ public class OrderDAOOracle implements OrderDAO {
 		ResultSet rs = null;
 		String selectALLSQL = 
 "SELECT info.order_no, order_id, c.name" + 
-", order_date" + 
+", order_dt" + 
 ", order_prod_no, p.prod_name, p.prod_price" + 
 ", order_quantity" + 
-" FROM order_info info " + 
+" FROM orderInfo info " + 
 " JOIN order_line line ON info.order_no = line.order_no" + 
 " JOIN customer c ON info.order_id = c.id" + 
 " JOIN product p ON line.order_prod_no = p.prod_no" + 
@@ -128,7 +128,7 @@ public class OrderDAOOracle implements OrderDAO {
 				int order_no = rs.getInt("order_no");
 				String order_id = rs.getString("order_id");
 				String name = rs.getString("name");//				
-				java.sql.Date order_date = rs.getDate("order_date");//
+				java.sql.Date order_dt = rs.getDate("order_dt");//
 				String order_prod_no = rs.getString("order_prod_no");//
 				String prod_name = rs.getString("prod_name");//
 				int prod_price = rs.getInt("prod_price");//
@@ -136,7 +136,7 @@ public class OrderDAOOracle implements OrderDAO {
 				if(old_order_no != order_no) {
 					info = new OrderInfo();
 					info.setOrder_no(order_no);
-					info.setOrder_date(order_date);
+					info.setOrder_date(order_dt);
 					Customer c = new Customer();
 					c.setId(order_id); 
 					c.setName(name);
@@ -191,10 +191,10 @@ public class OrderDAOOracle implements OrderDAO {
 		ResultSet rs = null;
 		String selectALLSQL = 
 "SELECT info.order_no, order_id, c.name" + 
-", order_date" + 
+", order_dt" + 
 ", order_prod_no, p.prod_name, p.prod_price" + 
 ", order_quantity" + 
-" FROM order_info info " + 
+" FROM orderInfo info " + 
 " JOIN order_line line ON info.order_no = line.order_no" + 
 " JOIN customer c ON info.order_id = c.id" + 
 " JOIN product p ON line.order_prod_no = p.prod_no" + 
@@ -205,7 +205,7 @@ public class OrderDAOOracle implements OrderDAO {
 			String url = "jdbc:oracle:thin:@localhost:1521:xe";
 	  		String user = "hr";
 	  		String password = "hr";
-	  		con =DriverManager.getConnection(url, user, password );
+	  		con =DriverManager.getConnection(url, user, password);
 	  		System.out.println("DB연결성공!");
 	  		
 			pstmt = con.prepareStatement(selectALLSQL);
@@ -218,7 +218,7 @@ public class OrderDAOOracle implements OrderDAO {
 				int order_no = rs.getInt("order_no");
 				String order_id = rs.getString("order_id");
 				String name = rs.getString("name");//				
-				java.sql.Date order_date = rs.getDate("order_date");//
+				java.sql.Date order_dt = rs.getDate("order_dt");//
 				String order_prod_no = rs.getString("order_prod_no");//
 				String prod_name = rs.getString("prod_name");//
 				int prod_price = rs.getInt("prod_price");//
@@ -226,7 +226,7 @@ public class OrderDAOOracle implements OrderDAO {
 				if(old_order_no != order_no) {
 					info = new OrderInfo();
 					info.setOrder_no(order_no);
-					info.setOrder_date(order_date);
+					info.setOrder_date(order_dt);
 					Customer c = new Customer();
 					c.setId(order_id); 
 					c.setName(name);

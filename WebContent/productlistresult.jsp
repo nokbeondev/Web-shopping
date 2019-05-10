@@ -20,6 +20,8 @@
 <%} %>
 ] --%>
 
+
+<%--아래처럼 EL(Expressoin Language)를 사용하면 간결하게 표현 가능하다 --%>
 <c:set var="all" value="${requestScope.all}"/>
 [
 <c:forEach items="${requestScope.all}" var="p" varStatus="vst">

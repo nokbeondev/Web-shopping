@@ -12,6 +12,7 @@ public class OrderInfo {
 	public OrderInfo() {
 		super();
 	}
+	
 	public OrderInfo(int order_no, Customer customer, Date order_date) {
 		super();
 		this.order_no = order_no;
